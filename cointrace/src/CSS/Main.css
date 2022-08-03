@@ -1,16 +1,33 @@
 body{
     margin: 0;
     height: 100vh;
+    /* overflow: hidden; */
 }
 .Header{
     width: 100vw;
     position: fixed;
     top: 0;
     background-color:#fff4f4;
-    height: 70px;
+    height: 10%;
 }
 .App{
+    padding-top: 70px;
     background-color: rgb(255, 255, 255);
-    height: 3000px;
+    height: 100vh;
+}
+
+button{
+    font-size: 1.4rem;
+    padding: 5px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 10px;
+    background-color: #f2a900b5;
+    transition: 1s all;
+}
+button:hover{
+    transform: scale(1.05);
+    background-color: #ffc336;
 }
 

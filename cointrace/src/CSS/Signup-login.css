@@ -1,0 +1,59 @@
+.signup-popup{
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.58);
+}
+.signup-popup .signup-info{
+    width: 40%;
+    max-width: 500px;
+    min-width: 350px;
+    height: 50%;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.signup-popup button{
+    margin-top: -60px;
+    position: fixed;
+    top: 70%;
+}
+.signup-popup input{
+    width: 100%;
+}
+.signup-popup .main-label{
+    z-index: 12;
+    margin-bottom: -60px;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+.signup-email,
+.signup-password{
+    max-width: 180px;
+    width: 40%;
+    height: 50%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.signup-info label{
+    margin: 5%;
+    font-size: 1.1rem;
+}
+.signup-info input:focus{
+    background-color: rgba(218, 165, 32, 0.104);
+    outline-color: black;
+}
