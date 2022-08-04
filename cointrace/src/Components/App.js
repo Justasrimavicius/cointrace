@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SignUpPopup from './SignUpPopup';
 
 function App() {
   const [signup, loadSignup] = useState(null);
-
   return (
+    <React.Fragment>
     <div className="App">
       <div className='first-load-screen'>
         <div className='text'>
@@ -14,8 +14,9 @@ function App() {
         </div>
         <img src={require('../Images/btc_phone.png')} height={'400px'}></img>
       </div>
-      <SignUpPopup props={signup} />
     </div>
+    <SignUpPopup props={{signup,loadSignup}} />
+    </React.Fragment>
   );
 }
 

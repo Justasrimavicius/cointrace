@@ -3,16 +3,17 @@ import React, { useEffect, useState } from "react";
 import { auth } from './Firebase-config';
 
 function SignUpPopup(props){
-
     const [submitError, setSubmitError] = useState(null);
-        
+    const [hidden, setHidden] = useState(null);
     useEffect(()=>{
         if(submitError!=null){
 
         }
     },[submitError]);
 
-    if(props.props!=null){
+
+
+    if(props.props.signup!=null){
 
 
 
@@ -29,11 +30,14 @@ function SignUpPopup(props){
                 const errorMessage = error.message;
                 // ..
                 const form = document.querySelector('.signup-info');
-                if(errorCode!='auth/email-already-in-use'){
+                if(errorCode=='auth/email-already-in-use'){
                     form.email.setCustomValidity('Email already in use');
                     form.email.reportValidity();
+                    console.log(errorMessage);
+
                 } else {
                     setSubmitError(<span className="signup-error">Uncaught error when trying to sign up</span>)
+                    console.log(errorMessage);
                 }
               });
         }
@@ -85,8 +89,9 @@ function SignUpPopup(props){
 
                     form.repeatPassword.setCustomValidity('');
                     console.log('good form');
-                    createUser(form.email.value,form.password.value);
+
                     // do stuff with firebase - create a user with the given email and password
+                    createUser(form.email.value,form.password.value);
                 } else {
                     form.password.setCustomValidity('Passwords must match');
                     form.password.reportValidity();
@@ -105,29 +110,34 @@ function SignUpPopup(props){
 
 
         return (
-            <div className="signup-popup">
-                <label className="main-label">Enter your credentials below</label>
-                <form className="signup-info" name="signupForm" onSubmit={(e)=>{formSubmit(e)}} noValidate>
-                    <div className="signup-email">
-                        <label>email:
-                            <input type={'text'} name='email' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></input>
-                        </label>
-                        <label>Repeat email:
-                            <input type={'text'} name='repeatEmail' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></input>
-                        </label>
+            <React.Fragment>
+                <div className="signup-popup" data-testid='signupPopup'>
+                    <div className="main-label">Enter your credentials below
+                        <button className="signup-exit" onClick={()=>{props.props.loadSignup(null)}}>X</button>
                     </div>
-                    <div className="signup-password">
-                        <label>Password:
-                            <input type={'password'} name='password' required minLength={6}></input>
-                        </label>
-                        <label>Repeat password:
-                            <input type={'password'} name='repeatPassword' required minLength={6}></input>
-                        </label>
-                    </div>
-                    <button type="button" onClick={(e)=>{formSubmit(e)}}>Change my future!</button>
-                </form>
-                {submitError}
-            </div>
+                    <form className="signup-info" name="signupForm" onSubmit={(e)=>{formSubmit(e)}} noValidate>
+                        <div className="signup-email">
+                            <label>email:
+                                <input type={'text'} name='email' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></input>
+                            </label>
+                            <label>Repeat email:
+                                <input type={'text'} name='repeatEmail' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></input>
+                            </label>
+                        </div>
+                        <div className="signup-password">
+                            <label>Password:
+                                <input type={'password'} name='password' required minLength={6}></input>
+                            </label>
+                            <label>Repeat password:
+                                <input type={'password'} name='repeatPassword' required minLength={6}></input>
+                            </label>
+                        </div>
+                        <button type="button" onClick={(e)=>{formSubmit(e)}}>Change my future!</button>
+                    </form>
+                    {submitError}
+                </div>
+            </React.Fragment>
+
         )
 
 
