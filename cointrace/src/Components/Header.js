@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import SignUpPopup from './SignUpPopup';
+import React, { useState } from 'react';
+import SignUpPopup from './AuthComponents/SignUpPopup';
+import LoginPopup from './AuthComponents/LoginPopup'
 
 function Header(){
 
     const [signup, loadSignup] = useState(null);
-
+    const [login, loadLogin] = useState(null);
     return (
         <React.Fragment>
             <div className="Header" data-testid='header'>
@@ -14,10 +15,11 @@ function Header(){
                 </div>
                 <div className='header-right'>
                     <button onClick={()=>{loadSignup(true)}} data-testid='signupButton'>Sign up</button>
-                    <button>Log in</button>
+                    <button onClick={()=>{loadLogin(true) }} data-testid='loginButton'>Log in</button>
                 </div>
             </div>
             <SignUpPopup props={{signup,loadSignup}} />
+            <LoginPopup props={{login, loadLogin}} />
         </React.Fragment>
 
 

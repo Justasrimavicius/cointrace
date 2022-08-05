@@ -22,6 +22,11 @@ describe('renders signup and login',()=>{
         expect(signupPopup).toBeInTheDocument();
     });
     test('login',()=>{
-        // login tests
+        render(<Header />)
+        const loginButton = screen.getByTestId('loginButton');
+        fireEvent.click(loginButton);
+
+        const loginPopup = screen.getByTestId('loginPopup');
+        expect(loginPopup).toBeInTheDocument();
     })
 });

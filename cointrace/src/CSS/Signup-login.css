@@ -12,7 +12,7 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.58);
 }
-.signup-popup .signup-info{
+.signup-info{
     width: 40%;
     max-width: 500px;
     min-width: 350px;
@@ -69,6 +69,126 @@
 
     opacity: 0.9;
     font-size: 3rem;
+    font-weight: bold;
+    border: 1px solid black;
+    text-align: center;
+    background-color: gray;
+
+    z-index: 13;
+    display: flex;
+    align-items: center;
+}
+.choose-avatar-overlay{
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.58);
+}
+.choose-avatar{
+    width: 65%;
+    min-width: 600px;
+    height: 30%;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.choose-avatar h3{
+    font-size: 1.5rem;
+}
+.avatar-line img{
+    width: 70px;
+    margin: 10px;
+    transition: 1s all;
+
+}
+.avatar-line img:hover{
+    transform:scale(1.1);
+}
+
+
+
+
+
+
+
+
+.login-popup{
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.58);
+}
+.login-info{
+    width: 40%;
+    max-width: 230px;
+    min-width: 180px;
+    height: 40%;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+.login-info label{
+    width: 150px;
+    font-size: 1.1rem;
+    margin: 5%;
+}
+.login-info input{
+    margin: 0;
+}
+.login-info span{
+    width: 200px;
+    align-self: center;
+}
+.login-info .login-label{
+    width: 200px;
+    font-weight: bold;
+    font-size: 1.3rem;
+    position: fixed;
+    margin-top: -180px;
+}
+.buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    position: fixed;
+    margin-top: 170px;
+}
+.login-error{
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40%;
+    max-width: 230px;
+    min-width: 180px;
+    height: 40%;
+
+    opacity: 0.9;
+    font-size: 2rem;
     font-weight: bold;
     border: 1px solid black;
     text-align: center;

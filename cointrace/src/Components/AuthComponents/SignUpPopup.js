@@ -1,17 +1,11 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { auth } from './Firebase-config';
+import { auth } from '../Firebase-config';
 
 function SignUpPopup(props){
     const [submitError, setSubmitError] = useState(null);
     const [hidden, setHidden] = useState(null);
-    useEffect(()=>{
-        if(submitError!=null){
-
-        }
-    },[submitError]);
-
-
+    const [avatar, setAvatar] = useState(null);
 
     if(props.props.signup!=null){
 
@@ -24,11 +18,13 @@ function SignUpPopup(props){
                 const user = userCredential.user;
                 // ...
                 console.log(user);
+                
               })
+              .then((idk)=>{setAvatar(true)})
               .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // ..
+
                 const form = document.querySelector('.signup-info');
                 if(errorCode=='auth/email-already-in-use'){
                     form.email.setCustomValidity('Email already in use');
@@ -36,8 +32,7 @@ function SignUpPopup(props){
                     console.log(errorMessage);
 
                 } else {
-                    setSubmitError(<span className="signup-error">Uncaught error when trying to sign up</span>)
-                    console.log(errorMessage);
+                    setSubmitError(true)
                 }
               });
         }
@@ -88,7 +83,6 @@ function SignUpPopup(props){
                 if(form.password.value === form.repeatPassword.value){
 
                     form.repeatPassword.setCustomValidity('');
-                    console.log('good form');
 
                     // do stuff with firebase - create a user with the given email and password
                     createUser(form.email.value,form.password.value);
@@ -111,31 +105,47 @@ function SignUpPopup(props){
 
         return (
             <React.Fragment>
-                <div className="signup-popup" data-testid='signupPopup'>
-                    <div className="main-label">Enter your credentials below
-                        <button className="signup-exit" onClick={()=>{props.props.loadSignup(null)}}>X</button>
+                {avatar ? <div className='choose-avatar-overlay'>
+                    <div className="choose-avatar">
+                        <h3>Choose your profile avatar</h3>
+                        <div className="avatar-line">
+                            <img className="ada" src={require('../../Images/ProfileImages/ada.png')}></img>
+                            <img className="bnb" src={require('../../Images/ProfileImages/bnb.png')}></img>
+                            <img className="btc" src={require('../../Images/ProfileImages/btc.png')}></img>
+                            <img className="dot" src={require('../../Images/ProfileImages/dot.png')}></img>
+                            <img className="eth" src={require('../../Images/ProfileImages/eth.png')}></img>
+                            <img className="usdt" src={require('../../Images/ProfileImages/usdt.png')}></img>
+                        </div>
                     </div>
-                    <form className="signup-info" name="signupForm" onSubmit={(e)=>{formSubmit(e)}} noValidate>
-                        <div className="signup-email">
-                            <label>email:
-                                <input type={'text'} name='email' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></input>
-                            </label>
-                            <label>Repeat email:
-                                <input type={'text'} name='repeatEmail' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></input>
-                            </label>
-                        </div>
-                        <div className="signup-password">
-                            <label>Password:
-                                <input type={'password'} name='password' required minLength={6}></input>
-                            </label>
-                            <label>Repeat password:
-                                <input type={'password'} name='repeatPassword' required minLength={6}></input>
-                            </label>
-                        </div>
-                        <button type="button" onClick={(e)=>{formSubmit(e)}}>Change my future!</button>
-                    </form>
-                    {submitError}
+                </div> : 
+                <div className="signup-popup" data-testid='signupPopup'>
+
+                <div className="main-label">Enter your credentials below
+                    <button className="signup-exit" onClick={()=>{props.props.loadSignup(null)}}>X</button>
                 </div>
+                <form className="signup-info" name="signupForm" onSubmit={(e)=>{formSubmit(e)}} noValidate>
+                    <div className="signup-email">
+                        <label>email:
+                            <input type={'text'} name='email' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></input>
+                        </label>
+                        <label>Repeat email:
+                            <input type={'text'} name='repeatEmail' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></input>
+                        </label>
+                    </div>
+                    <div className="signup-password">
+                        <label>Password:
+                            <input type={'password'} name='password' required minLength={6}></input>
+                        </label>
+                        <label>Repeat password:
+                            <input type={'password'} name='repeatPassword' required minLength={6}></input>
+                        </label>
+                    </div>
+                    <button type="button" onClick={(e)=>{formSubmit(e)}}>Change my future!</button>
+                </form>
+                {submitError ? <span className="signup-error" onClick={()=>{setSubmitError(null)}}>Uncaught error when trying to sign up</span> : null}
+                </div>
+                }
+                
             </React.Fragment>
 
         )
