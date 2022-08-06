@@ -28,5 +28,6 @@ describe('renders signup and login',()=>{
 
         const loginPopup = screen.getByTestId('loginPopup');
         expect(loginPopup).toBeInTheDocument();
+
     })
 });

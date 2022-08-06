@@ -1,11 +1,27 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { auth } from '../Firebase-config';
+import setAvatarInFB from '../setAvatarInFB';
+
+import { useNavigate } from "react-router-dom";
 
 function SignUpPopup(props){
     const [submitError, setSubmitError] = useState(null);
-    const [hidden, setHidden] = useState(null);
     const [avatar, setAvatar] = useState(null);
+    const [UID, setUID] = useState('');
+    const [succesfulSignup, setSuccesfulSignup] = useState(null);
+    const [isAvatarChosen, setIsAvatarChosen] = useState(null);
+    const [succesfulSignupTimer, setSuccesfulSignupTimer] = useState(5);
+    const [triggerRoute, setTriggerRoute] = useState(null);
+    let navigate = useNavigate();
+
+    useEffect(()=>{
+        if(triggerRoute!=null){
+
+            navigate(triggerRoute);
+        }
+
+    },[triggerRoute]);
 
     if(props.props.signup!=null){
 
@@ -18,6 +34,7 @@ function SignUpPopup(props){
                 const user = userCredential.user;
                 // ...
                 console.log(user);
+                setUID(user.uid);
                 
               })
               .then((idk)=>{setAvatar(true)})
@@ -106,17 +123,35 @@ function SignUpPopup(props){
         return (
             <React.Fragment>
                 {avatar ? <div className='choose-avatar-overlay'>
-                    <div className="choose-avatar">
+                    {!succesfulSignup ? <div className="choose-avatar">
                         <h3>Choose your profile avatar</h3>
                         <div className="avatar-line">
-                            <img className="ada" src={require('../../Images/ProfileImages/ada.png')}></img>
-                            <img className="bnb" src={require('../../Images/ProfileImages/bnb.png')}></img>
-                            <img className="btc" src={require('../../Images/ProfileImages/btc.png')}></img>
-                            <img className="dot" src={require('../../Images/ProfileImages/dot.png')}></img>
-                            <img className="eth" src={require('../../Images/ProfileImages/eth.png')}></img>
-                            <img className="usdt" src={require('../../Images/ProfileImages/usdt.png')}></img>
+                            <img className="ada" src={require('../../Images/ProfileImages/ada.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
+                            <img className="bnb" src={require('../../Images/ProfileImages/bnb.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
+                            <img className="btc" src={require('../../Images/ProfileImages/btc.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
+                            <img className="dot" src={require('../../Images/ProfileImages/dot.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
+                            <img className="eth" src={require('../../Images/ProfileImages/eth.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
+                            <img className="usdt" src={require('../../Images/ProfileImages/usdt.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
                         </div>
-                    </div>
+                        <button className="avatar-submit"
+                            onClick={()=>{if(isAvatarChosen){
+                                let i = 5;
+                            setSuccesfulSignup(true);
+                            setTimeout(() => {document.querySelector('.succesful-signup').style.opacity='1'}, 100);
+                            setInterval(() => {
+                                if(i > 0){
+                                    setSuccesfulSignupTimer(i);
+                                    i--;
+                                    console.log(succesfulSignupTimer);
+                                } else {
+                                    setTriggerRoute("/LoggedInApp");
+                                }
+                            }, 1000);
+                            }}}>Continue</button>
+                    </div> :
+                    <div className="succesful-signup">Your account has been created succesfully!<span className="succ-signup-timer">{succesfulSignupTimer}...</span></div>
+                    
+                    }
                 </div> : 
                 <div className="signup-popup" data-testid='signupPopup'>
 

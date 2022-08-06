@@ -15,7 +15,7 @@ function Header(){
                 </div>
                 <div className='header-right'>
                     <button onClick={()=>{loadSignup(true)}} data-testid='signupButton'>Sign up</button>
-                    <button onClick={()=>{loadLogin(true) }} data-testid='loginButton'>Log in</button>
+                    <button onClick={()=>{loadLogin(true)}} data-testid='loginButton'>Log in</button>
                 </div>
             </div>
             <SignUpPopup props={{signup,loadSignup}} />
