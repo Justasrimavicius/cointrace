@@ -43,3 +43,9 @@
     transform: scale(1.05);
     background-color: #ffc336;
 }
+.header-avatar{
+    transition: 5s ease-in;
+}
+.header-avatar:hover{
+    transform: rotate(720deg);
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './Components/Routes/App';
 import LoggedInApp from './Components/Routes/LoggedInApp';
@@ -13,16 +13,18 @@ import {
   Switch,
   Route,
   Routes,
-  Link
+  Link,
+  useNavigate,
 } from "react-router-dom";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
-    <Routes>
-      <Route exact path="/" element={<App />} />
-      <Route exact path='/LoggedInApp' element={<LoggedInApp />} />
-    </Routes>
+      <Routes>
+          <Route exact path="/" element={<App />} />
+          <Route exact path='/LoggedInApp' element={<LoggedInApp />} />
+      </Routes>
   </Router>
 );
 

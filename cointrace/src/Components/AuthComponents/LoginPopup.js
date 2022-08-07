@@ -1,19 +1,24 @@
 import { auth } from '../Firebase-config';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 function LoginPopup(props){
     const [submitError, setSubmitError] = useState(null);
-    if(props.props.login!=null){
+    let navigate = useNavigate();
 
+    if(props.props.login!=null){
+        console.log(props);
         function LoginUser(email,password,form){
             signInWithEmailAndPassword(auth, email, password)
               .then((userCredential) => {
                 // Signed in 
-                const user = userCredential.user;
-                // ...
-                console.log(user);
+                sessionStorage.setItem('user',userCredential.user.uid);
+
+              })
+              .then((x)=>{
+                navigate('/LoggedInApp');
               })
               .catch((error) => {
                 const errorCode = error.code;

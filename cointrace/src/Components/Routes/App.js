@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SignUpPopup from '../AuthComponents/SignUpPopup';
 import Header from '../Header';
 
 
 function App() {
   const [signup, loadSignup] = useState(null);
+
+
   return (
     <React.Fragment>
-      <Header />
+      <Header props={{loggedIn:false}} /> 
       <div className="App">
         <div className='first-load-screen'>
           <div className='text'>

@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 function SignUpPopup(props){
     const [submitError, setSubmitError] = useState(null);
     const [avatar, setAvatar] = useState(null);
-    const [UID, setUID] = useState('');
     const [succesfulSignup, setSuccesfulSignup] = useState(null);
     const [isAvatarChosen, setIsAvatarChosen] = useState(null);
     const [succesfulSignupTimer, setSuccesfulSignupTimer] = useState(5);
@@ -17,7 +16,6 @@ function SignUpPopup(props){
 
     useEffect(()=>{
         if(triggerRoute!=null){
-
             navigate(triggerRoute);
         }
 
@@ -26,15 +24,13 @@ function SignUpPopup(props){
     if(props.props.signup!=null){
 
 
-
         function createUser(email,password){
+
             createUserWithEmailAndPassword(auth, email, password)
               .then((userCredential) => {
                 // Signed in 
-                const user = userCredential.user;
-                // ...
-                console.log(user);
-                setUID(user.uid);
+                sessionStorage.setItem('user',userCredential.user.uid);
+
                 
               })
               .then((idk)=>{setAvatar(true)})
@@ -49,7 +45,7 @@ function SignUpPopup(props){
                     console.log(errorMessage);
 
                 } else {
-                    setSubmitError(true)
+                    setSubmitError(true);
                 }
               });
         }
@@ -126,23 +122,22 @@ function SignUpPopup(props){
                     {!succesfulSignup ? <div className="choose-avatar">
                         <h3>Choose your profile avatar</h3>
                         <div className="avatar-line">
-                            <img className="ada" src={require('../../Images/ProfileImages/ada.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
-                            <img className="bnb" src={require('../../Images/ProfileImages/bnb.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
-                            <img className="btc" src={require('../../Images/ProfileImages/btc.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
-                            <img className="dot" src={require('../../Images/ProfileImages/dot.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
-                            <img className="eth" src={require('../../Images/ProfileImages/eth.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
-                            <img className="usdt" src={require('../../Images/ProfileImages/usdt.png')} onClick={(e)=>{setAvatarInFB(e.target.className,UID);setIsAvatarChosen(true)}} tabIndex='1'></img>
+                            <img className="ada" src={require('../../Images/ProfileImages/ada.png')} onClick={(e)=>{setAvatarInFB(e.target.className,sessionStorage.getItem('user'));setIsAvatarChosen(true)}} tabIndex='1'></img>
+                            <img className="bnb" src={require('../../Images/ProfileImages/bnb.png')} onClick={(e)=>{setAvatarInFB(e.target.className,sessionStorage.getItem('user'));setIsAvatarChosen(true)}} tabIndex='1'></img>
+                            <img className="btc" src={require('../../Images/ProfileImages/btc.png')} onClick={(e)=>{setAvatarInFB(e.target.className,sessionStorage.getItem('user'));setIsAvatarChosen(true)}} tabIndex='1'></img>
+                            <img className="dot" src={require('../../Images/ProfileImages/dot.png')} onClick={(e)=>{setAvatarInFB(e.target.className,sessionStorage.getItem('user'));setIsAvatarChosen(true)}} tabIndex='1'></img>
+                            <img className="eth" src={require('../../Images/ProfileImages/eth.png')} onClick={(e)=>{setAvatarInFB(e.target.className,sessionStorage.getItem('user'));setIsAvatarChosen(true)}} tabIndex='1'></img>
+                            <img className="usdt" src={require('../../Images/ProfileImages/usdt.png')} onClick={(e)=>{setAvatarInFB(e.target.className,sessionStorage.getItem('user'));setIsAvatarChosen(true)}} tabIndex='1'></img>
                         </div>
                         <button className="avatar-submit"
                             onClick={()=>{if(isAvatarChosen){
-                                let i = 5;
+                                let i = 4;
                             setSuccesfulSignup(true);
-                            setTimeout(() => {document.querySelector('.succesful-signup').style.opacity='1'}, 100);
+                            setTimeout(() => {document.querySelector('.succesful-signup').style.opacity='1'}, 10);
                             setInterval(() => {
                                 if(i > 0){
                                     setSuccesfulSignupTimer(i);
                                     i--;
-                                    console.log(succesfulSignupTimer);
                                 } else {
                                     setTriggerRoute("/LoggedInApp");
                                 }
@@ -188,6 +183,6 @@ function SignUpPopup(props){
 
 
     }
-}
 
+}
 export default SignUpPopup;
