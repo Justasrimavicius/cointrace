@@ -13,7 +13,7 @@
     background-color: rgba(0, 0, 0, 0.58);
 }
 .signup-info{
-    width: 40%;
+    width: 41%;
     max-width: 500px;
     min-width: 350px;
     height: 50%;
@@ -126,7 +126,7 @@
 }
 .avatar-line img:focus{
     border-radius: 50px;
-    box-shadow: 1px 1px 5px 5px gold;
+    box-shadow: 1px 1px 5px 5px rgba(189, 189, 189, 0.483);
 }
 .avatar-submit{
     margin: 10px;
@@ -200,14 +200,14 @@
     font-weight: bold;
     font-size: 1.3rem;
     position: fixed;
-    margin-top: -180px;
+    margin-top: -190px;
 }
 .buttons{
     display: flex;
     flex-direction: row;
     gap: 50px;
     position: fixed;
-    margin-top: 170px;
+    margin-top: 200px;
 }
 .login-error{
     position: fixed;

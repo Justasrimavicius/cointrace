@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Typography, Button, Input, TextField } from '@mui/material';
 
 function LoginPopup(props){
     const [submitError, setSubmitError] = useState(null);
@@ -33,9 +34,11 @@ function LoginPopup(props){
                 } else if(errorMessage=='Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).'){
                     form.email.setCustomValidity('Too many login attempts. Try again later');
                     form.email.reportValidity();
+                } else if(errorMessage=='Firebase: Error (auth/user-not-found).'){
+                    form.email.setCustomValidity('User does not exist');
+                    form.email.reportValidity();
                 } else {
                     setSubmitError(true);
-
                 }
               });
         }
@@ -52,20 +55,16 @@ function LoginPopup(props){
         return (
             <div className="login-popup" data-testid='loginPopup'>
                 <form className="login-info" name="loginInfo" onSubmit={(e)=>{formSubmit(e)}}>
-                    <label className="login-label">Enter the information</label>
-                    <label><span>Email:</span>
-                        <input type={'text'} name='email' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></input>
-                    </label>
-                    <label><span>Password:</span>
-                        <input type={'password'} name='password' required></input>
-                    </label>
+                    <Typography variant='h5' className="login-label">Enter the information</Typography>
+                        <TextField label="Email" variant="filled" type={'email'} name='email' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></TextField>
+                        <TextField label="Password" variant="filled" type={'password'} name='password' required></TextField>
                     <div className="buttons">
-                        <button className="signup-submit" type="button" onClick={(e)=>{formSubmit(e)}}>Log in</button>
-                        <button className="signup-exit" onClick={()=>{props.props.loadLogin(null)}}>X</button>
+                        <Button variant='outlined'  type="button" onClick={(e)=>{formSubmit(e)}}>Log in</Button>
+                        <Button variant="outlined"  style={{maxWidth:'10px', minWidth:'10px'}} onClick={()=>{props.props.loadLogin(null)}}>X</Button>
                     </div>
 
                 </form>
-                {submitError ? <span className="login-error" onClick={()=>{setSubmitError(null)}}>Uncaught error when trying to sign up</span> : null}
+                {submitError ? <Typography variant='span' className="login-error" onClick={()=>{setSubmitError(null)}}>Uncaught error when trying to sign up</Typography> : null}
 
             </div>
         )

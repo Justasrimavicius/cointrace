@@ -5,6 +5,8 @@ import setAvatarInFB from '../setAvatarInFB';
 
 import { useNavigate } from "react-router-dom";
 
+import { Typography, Button, TextField } from "@mui/material";
+
 function SignUpPopup(props){
     const [submitError, setSubmitError] = useState(null);
     const [avatar, setAvatar] = useState(null);
@@ -120,7 +122,7 @@ function SignUpPopup(props){
             <React.Fragment>
                 {avatar ? <div className='choose-avatar-overlay'>
                     {!succesfulSignup ? <div className="choose-avatar">
-                        <h3>Choose your profile avatar</h3>
+                        <Typography variant="h3" color='primary' fontWeight={'bold'}>Choose your profile avatar</Typography>
                         <div className="avatar-line">
                             <img className="ada" src={require('../../Images/ProfileImages/ada.png')} onClick={(e)=>{setAvatarInFB(e.target.className,sessionStorage.getItem('user'));setIsAvatarChosen(true)}} tabIndex='1'></img>
                             <img className="bnb" src={require('../../Images/ProfileImages/bnb.png')} onClick={(e)=>{setAvatarInFB(e.target.className,sessionStorage.getItem('user'));setIsAvatarChosen(true)}} tabIndex='1'></img>
@@ -129,7 +131,7 @@ function SignUpPopup(props){
                             <img className="eth" src={require('../../Images/ProfileImages/eth.png')} onClick={(e)=>{setAvatarInFB(e.target.className,sessionStorage.getItem('user'));setIsAvatarChosen(true)}} tabIndex='1'></img>
                             <img className="usdt" src={require('../../Images/ProfileImages/usdt.png')} onClick={(e)=>{setAvatarInFB(e.target.className,sessionStorage.getItem('user'));setIsAvatarChosen(true)}} tabIndex='1'></img>
                         </div>
-                        <button className="avatar-submit"
+                        <Button variant="outlined" color="secondary" className="avatar-submit"
                             onClick={()=>{if(isAvatarChosen){
                                 let i = 4;
                             setSuccesfulSignup(true);
@@ -142,35 +144,27 @@ function SignUpPopup(props){
                                     setTriggerRoute("/LoggedInApp");
                                 }
                             }, 1000);
-                            }}}>Continue</button>
+                            }}}>Continue</Button>
                     </div> :
-                    <div className="succesful-signup">Your account has been created succesfully!<span className="succ-signup-timer">{succesfulSignupTimer}...</span></div>
+                    <Typography variant="h5" className="succesful-signup">Your account has been created succesfully!<Typography variant="span" color='primary' className="succ-signup-timer">{succesfulSignupTimer}...</Typography></Typography>
                     
                     }
                 </div> : 
                 <div className="signup-popup" data-testid='signupPopup'>
 
                 <div className="main-label">Enter your credentials below
-                    <button className="signup-exit" onClick={()=>{props.props.loadSignup(null)}}>X</button>
+                    <Button variant="outlined" style={{maxWidth:'10px', minWidth:'10px'}} onClick={()=>{props.props.loadSignup(null)}}>X</Button>
                 </div>
                 <form className="signup-info" name="signupForm" onSubmit={(e)=>{formSubmit(e)}} noValidate>
                     <div className="signup-email">
-                        <label>email:
-                            <input type={'text'} name='email' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></input>
-                        </label>
-                        <label>Repeat email:
-                            <input type={'text'} name='repeatEmail' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></input>
-                        </label>
+                            <TextField variant="filled" label='Email' type={'email'} name='email' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></TextField>
+                            <TextField variant="filled" label='Repeat email' type={'email'} name='repeatEmail' required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"></TextField>
                     </div>
                     <div className="signup-password">
-                        <label>Password:
-                            <input type={'password'} name='password' required minLength={6}></input>
-                        </label>
-                        <label>Repeat password:
-                            <input type={'password'} name='repeatPassword' required minLength={6}></input>
-                        </label>
+                            <TextField variant="filled" label='Password' type={'password'} name='password' required minLength={6}></TextField>
+                            <TextField variant="filled" label='Repeat password' type={'password'} name='repeatPassword' required minLength={6}></TextField>
                     </div>
-                    <button type="button" onClick={(e)=>{formSubmit(e)}}>Change my future!</button>
+                    <Button variant="outlined" type="button" onClick={(e)=>{formSubmit(e)}}>Change my future!</Button>
                 </form>
                 {submitError ? <span className="signup-error" onClick={()=>{setSubmitError(null)}}>Uncaught error when trying to sign up</span> : null}
                 </div>
