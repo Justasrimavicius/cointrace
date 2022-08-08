@@ -50,7 +50,7 @@ function Header(props){
                     {!props.props.loggedIn ? <button onClick={()=>{loadSignup(true)}} data-testid='signupButton'>Sign up</button> : null}
                     {!props.props.loggedIn ? <button onClick={()=>{loadLogin(true)}} data-testid='loginButton'>Log in</button> : null}
                     {props.props.loggedIn ? <img src={avatarLink} className='header-avatar' width={'40px'} height={'40px'} tabIndex='1' data-testid='avatar'></img> : null}
-                    {props.props.loggedIn ? <button onClick={()=>{setTriggerRoute('/')}}>Log out</button> : null}
+                    {props.props.loggedIn ? <button onClick={()=>{navigate('/UnauthorizedApp')}}>Log out</button> : null}
                 </div>
             </div>
             <SignUpPopup props={{signup,loadSignup}} />

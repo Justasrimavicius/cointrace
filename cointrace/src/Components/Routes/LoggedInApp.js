@@ -4,7 +4,10 @@ import Header from "../Header";
 
 
 function LoggedInApp(){
-    const UID=sessionStorage.getItem('user');
+
+    useEffect(()=>{
+        const UID=sessionStorage.getItem('user');
+    },[])
 
 
     return(
