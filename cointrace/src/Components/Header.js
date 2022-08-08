@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { db } from './Firebase-config';
 import { doc, getDoc } from "firebase/firestore"; 
 
+import { Typography } from '@mui/material';
+
 function Header(props){
 
     const [signup, loadSignup] = useState(null);
@@ -20,6 +22,7 @@ function Header(props){
             navigate('/');
         }
     },[triggerRoute]);
+
     useEffect(()=>{
         if(props.props.loggedIn!=null){
             getAvatar();
@@ -41,18 +44,19 @@ function Header(props){
             <div className="Header" data-testid='header'>
                 <div className='header-left'>
                     <img src={require('../Images/btc.png')} height={'40px'}></img>
-                    <span>Your financial literacy begins here!</span>
+                    <Typography variant='h5'>Your financial literacy begins here!</Typography>
                 </div>
                 <div className='header-right'>
                     {!props.props.loggedIn ? <button onClick={()=>{loadSignup(true)}} data-testid='signupButton'>Sign up</button> : null}
                     {!props.props.loggedIn ? <button onClick={()=>{loadLogin(true)}} data-testid='loginButton'>Log in</button> : null}
-                    {props.props.loggedIn ? <img src={avatarLink} className='header-avatar' width={'40px'} height={'40px'} tabIndex='1'></img> : null}
+                    {props.props.loggedIn ? <img src={avatarLink} className='header-avatar' width={'40px'} height={'40px'} tabIndex='1' data-testid='avatar'></img> : null}
                     {props.props.loggedIn ? <button onClick={()=>{setTriggerRoute('/')}}>Log out</button> : null}
                 </div>
             </div>
             <SignUpPopup props={{signup,loadSignup}} />
             <LoginPopup props={{login,loadLogin}} />
         </React.Fragment>
+
 
 
     )

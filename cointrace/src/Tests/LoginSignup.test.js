@@ -1,28 +1,21 @@
 import { render, screen, cleanup, afterEach, fireEvent } from '@testing-library/react';
+import { BrowserRouter as Router } from "react-router-dom";
+import { toBeInTheDocument } from '@testing-library/jest-dom/dist/matchers';
+
 import Header from '../Components/Header';
-
-
+import App from '../Components/Routes/App'
 test('renders header', () => {
-render(<Header />);
 
+    render(<Router><Header props={{}}/></Router>)
     const header = screen.getByTestId('header');
     expect(header).toBeInTheDocument();
 });
 
-describe('renders signup and login',()=>{
+describe('renders unauthenticated header view',()=>{
 
+    test('login button in header',()=>{
+        render(<Router><Header props={{}}/></Router>)
 
-    test('signup',()=>{
-        render(<Header />);
-
-        const signupButton = screen.getByTestId('signupButton');
-        fireEvent.click(signupButton);
-
-        const signupPopup = screen.getByTestId('signupPopup');
-        expect(signupPopup).toBeInTheDocument();
-    });
-    test('login',()=>{
-        render(<Header />)
         const loginButton = screen.getByTestId('loginButton');
         fireEvent.click(loginButton);
 
@@ -30,4 +23,30 @@ describe('renders signup and login',()=>{
         expect(loginPopup).toBeInTheDocument();
 
     })
+
 });
+
+describe('renders authenticated header view',()=>{
+    test('logout button in header',()=>{
+        render(<Router><Header props={{loggedIn:true}}/></Router>)
+
+        const logoutButton = screen.getByText('Log out');
+        expect(logoutButton).toBeInTheDocument();
+
+    })
+    test('avatar in header',()=>{
+        sessionStorage.setItem('user','HCjEpM5ec2SU8FPJvX4zADFHE3u1');
+        render(<Router><Header props={{loggedIn:true}}/></Router>);
+
+        const avatar = screen.getByTestId('avatar');
+        expect(avatar).toBeInTheDocument();
+
+    })
+
+})
+
+test('renders both signups - from App.js and from Header.js',()=>{
+    render(<Router><App /></Router>);
+    const signup = screen.getAllByText('Sign up');
+    expect(signup).toHaveLength(2);
+})

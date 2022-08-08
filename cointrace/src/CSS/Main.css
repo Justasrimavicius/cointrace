@@ -31,3 +31,6 @@ button:hover{
     background-color: #ffc336;
 }
 
+* {
+    font-family: 'roboto';
+}

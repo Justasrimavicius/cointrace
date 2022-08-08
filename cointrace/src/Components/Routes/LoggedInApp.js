@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Header from "../Header";
 
+
+
 function LoggedInApp(){
     const UID=sessionStorage.getItem('user');
-    useEffect(()=>{
-        console.log(UID);
-    })
+
 
     return(
         <React.Fragment>
-            <Header props={{loggedIn:true}} userUIDProps={{UID}}/>
+            <Header props={{loggedIn:true}}/>
 
-            <div className="logged-in-app">
+            <div className="logged-in-app" data-testid='LoggedInApp'>
                 EGEHEHEHEHE
             </div>
         </React.Fragment>
