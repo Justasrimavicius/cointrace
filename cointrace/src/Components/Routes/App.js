@@ -33,7 +33,7 @@ function App(){
       <ThemeProvider theme={theme}>
         <Router>
           <Routes>
-            <Route exact path="/UnauthorizedApp" element={<UnauthorizedApp />} />
+            <Route exact path="/" element={<UnauthorizedApp />} />
             <Route exact path='/LoggedInApp' element={<LoggedInApp />} />
           </Routes>
         </Router>

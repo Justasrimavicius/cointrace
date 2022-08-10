@@ -25,6 +25,7 @@ function Header(props){
             getAvatar();
         }
     },[props.props.loggedIn]);
+
     async function getAvatar(){
         try{
             const docRef = doc(db, "users", sessionStorage.getItem('user'));
@@ -47,7 +48,7 @@ function Header(props){
                     {!props.props.loggedIn ? <Button variant='outlined' color='secondary' onClick={()=>{loadSignup(true)}} data-testid='signupButton'>Sign up</Button> : null}
                     {!props.props.loggedIn ? <Button variant='contained' color='secondary' onClick={()=>{loadLogin(true)}} data-testid='loginButton'>Log in</Button> : null}
                     {props.props.loggedIn ? <img src={avatarLink} className='header-avatar' width={'40px'} height={'40px'} tabIndex='1' data-testid='avatar'></img> : null}
-                    {props.props.loggedIn ? <Button variant='contained' color='secondary' onClick={()=>{navigate('/UnauthorizedApp')}}>Log out</Button> : null}
+                    {props.props.loggedIn ? <Button variant='contained' color='secondary' onClick={()=>{navigate('/')}}>Log out</Button> : null}
                 </div>
             </div>
             <SignUpPopup props={{signup,loadSignup}} />
