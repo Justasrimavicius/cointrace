@@ -4,11 +4,15 @@
     margin-top: 10vh;
 
     display: grid;
-    grid-template-rows: 7fr 1fr;
-    grid-template-columns: 4fr 9fr 5fr;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 1fr;
 }
 
-
+.home{
+    display: grid;
+    grid-template-columns: 5fr 3fr;
+    grid-template-rows: 5fr 1fr;
+}
 .left-side{
     grid-row: 1/3;
 }
@@ -20,7 +24,7 @@
 }
 .footer{
     grid-row: 2/3;
-    grid-column: 2/4;
+    grid-column: 1/3;
 }
 .left-side{
     display: flex;
@@ -126,3 +130,28 @@
     justify-content: space-between;
     align-items: center;
 }
+
+
+
+
+
+
+
+.portfolio{
+    display: grid;
+    grid-template-columns: 5fr 3fr;
+    height: 90vh;
+}
+.portfolio-left{
+    border: 1px solid black;
+    border-top: 0;
+}
+.portfolio-left-upper{
+    border-bottom: 1px solid black;
+    height: 15vh;
+}
+/* .portfolio-left-coins{
+}
+.portfolio-right{
+
+} */

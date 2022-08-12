@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { auth } from '../Firebase-config';
-import setAvatarInFB from '../setAvatarInFB';
+import setAvatarInFB from './setAvatarInFB';
 
 import { useNavigate } from "react-router-dom";
 
