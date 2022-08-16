@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle, Typography } from "@mui/material";
 
 import { db } from "../Firebase-config";
-import { setDoc, doc, getDoc, updateDoc } from "firebase/firestore";
+import { setDoc, doc, getDoc, getDocs, updateDoc, collection } from "firebase/firestore";
 
 import { useState, useEffect } from "react";
 import * as React from 'react';
@@ -16,9 +16,11 @@ import { Button } from "@mui/material";
 import { TextField }from "@mui/material";
 
 import uniqid from 'uniqid';
+import axios from "axios";
 
 import { useContext } from "react";
 import { UserContext } from "../AuthComponents/UserContext";
+import { GetApp } from "@mui/icons-material";
 
 function Portfolio(props){
     const [topupBtn, disableTopupBtn] = useState('text');
@@ -27,9 +29,12 @@ function Portfolio(props){
     const [balanceTopup, setBalanceTopup] = useState(null);
     const [fiatAmount, setFiatAmount] = useState('0.00');
     const [mockFiatAmount, setMockFiatAmount] = useState('0');
+    const [coins, setCoins] = useState([]);
+    const [coinsDisplay, setCoinsDisplay] = useState(null);
 
     const context = useContext(UserContext);
     const UID = context.UID;
+
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
       [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.primary.light,
@@ -45,12 +50,11 @@ function Portfolio(props){
             setDoc(doc(db, "users", `${UID}`), {topupBtn: `${topupBtn}`}, {merge: true});
         }
     },[topupBtn])
-
     useEffect(()=>{
         const userData = getDoc(doc(db, 'users', `${UID}`))
         .then((user)=>{
             if(user.data().fiat){
-                setFiatAmount(user.data().fiat);
+                setFiatAmount(parseFloat(user.data().fiat).toFixed(2));
             } else {
                 setFiatAmount('0.00');
             }
@@ -60,7 +64,7 @@ function Portfolio(props){
             }
         })
 
-    });
+    },[]);
 
     useEffect(()=>{
 
@@ -77,46 +81,69 @@ function Portfolio(props){
         }
     },[alert])
 
-    async function HandleTopup(){
-        try {
-            // check for too large topup amounts(100mil max)
-            if(!mockFiatAmount.includes('.') && mockFiatAmount.length>9){
-                setAlert('Topup sum is too big');
-                return;
-            } else if(mockFiatAmount.split('.')[0].length>9){
-                setAlert('Topup sum is too big');
-                return;
+    function HandleTopup(){
+        // check for too large topup amounts(100mil max)
+        if(!mockFiatAmount.includes('.') && mockFiatAmount.length>9){
+            setAlert('Topup sum is too big');
+            return;
+        } else if(mockFiatAmount.split('.')[0].length>9){
+            setAlert('Topup sum is too big');
+            return;
+        }
+
+        // add 0s to the end for better UI view
+        if(!mockFiatAmount.includes('.')){
+
+            setFiatAmount(mockFiatAmount+'.00');
+
+        } 
+        else if(mockFiatAmount.split('.')[1].length==1){
+            setFiatAmount(mockFiatAmount+'0');
+        }
+        else if(mockFiatAmount.split('.')[1].length>2){
+            setFiatAmount(mockFiatAmount.split('.')[0]+'.'+mockFiatAmount.split('.')[1].substring(0,2))
+        } else {
+            setFiatAmount(mockFiatAmount);
+        }
+        disableTopupBtn('disabled');
+        setBalanceTopup(false);
+}
+
+    useEffect(()=>{
+        getDocs(collection(db, `users/${UID}/crypto`))
+        .then(result=>{
+            async function getCoin(){
+            for(let document of result.docs){
+                const name = (document.data().name).toLowerCase();
+                const amount = document.data().amount;
+                let price;
+                let avatarSrc;
+                let priceChange24h;
+                await axios.get(`https://api.coingecko.com/api/v3/coins/${name}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`)
+                .then(result=>{
+                    price=result.data.market_data.current_price.usd;
+                    avatarSrc=result.data.image.small;
+                    priceChange24h=result.data.market_data.price_change_percentage_24h;
+                    let coin = {
+                        name: `${name}`,
+                        amount: `${amount}`,
+                        price: `${price}`,
+                        priceChange24h: `${priceChange24h}`,
+                        avatarSrc: `${avatarSrc}`,
+                    }
+                    setCoins(currentArr => [coin, ...currentArr]);
+                })
             }
+                }
+                getCoin();
+        })
 
-            // add 0s to the end for better UI view
-            if(!mockFiatAmount.includes('.')){
+    },[])
 
-                setFiatAmount(mockFiatAmount+'.00');
-
-            } 
-            else if(mockFiatAmount.split('.')[1].length==1){
-                setFiatAmount(mockFiatAmount+'0');
-            }
-            else if(mockFiatAmount.split('.')[1].length>2){
-                setFiatAmount(mockFiatAmount.split('.')[0]+'.'+mockFiatAmount.split('.')[1].substring(0,2))
-            } else {
-                setFiatAmount(mockFiatAmount);
-            }
-            disableTopupBtn('disabled');
-            setBalanceTopup(false);
-    
-          } catch (e) {
-            console.error("Error adding document: ", e);
-          }
-    
-    
-    
-    }
-
-    const coins=[
-        {name:'btc', price:'22342.00',amount: '0.002', prcntOfPortfolio: '2.65'}, // testing array
-
-    ]
+    useEffect(()=>{
+        console.log(coins);
+        setCoinsDisplay(true);
+    },[coins])
 
     return(
         <div className="portfolio">
@@ -132,19 +159,19 @@ function Portfolio(props){
                                 <TableRow>
                                     <StyledTableCell align="left">Name</StyledTableCell>
                                     <StyledTableCell align="right">Balance</StyledTableCell>
-                                    <StyledTableCell align="right">Price</StyledTableCell>
-                                    <StyledTableCell align="right">% of portfolio</StyledTableCell>
+                                    <StyledTableCell align="right">Price of 1</StyledTableCell>
+                                    <StyledTableCell align="right">24h price change %</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {coins.map((coin)=>{
+                                {coinsDisplay ? coins.map((coin)=>{
                                     return(<TableRow key={uniqid()}>
-                                       <StyledTableCell align="left">{coin.name} </StyledTableCell>
+                                       <StyledTableCell align="left">{coin.name}</StyledTableCell>
                                        <StyledTableCell align="right">{coin.amount}</StyledTableCell>
-                                       <StyledTableCell align="right">{coin.price}</StyledTableCell>
-                                       <StyledTableCell align="right">{coin.prcntOfPortfolio}</StyledTableCell>
+                                       <StyledTableCell align="right">{coin.price}$</StyledTableCell>
+                                       <StyledTableCell align="right">{parseFloat(coin.priceChange24h).toFixed(2)}%</StyledTableCell>
                                     </TableRow>)
-                                })}
+                                }) : null }
                             </TableBody>
                         </Table>
                         {coins.length==0 ? <Button fullWidth onClick={()=>{props.loadFromSidePanel.loadSidePanelTab('trade')}}>No coins in your portfolio. Add some!</Button> : null}
