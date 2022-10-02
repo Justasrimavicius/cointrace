@@ -23,7 +23,6 @@ describe('renders unauthenticated header view',()=>{
         expect(loginPopup).toBeInTheDocument();
 
     })
-
 });
 
 describe('renders authenticated header view',()=>{
@@ -42,11 +41,10 @@ describe('renders authenticated header view',()=>{
         expect(avatar).toBeInTheDocument();
 
     })
-
 })
 
 test('renders both signups - from App.js and from Header.js',()=>{
-    render(<Router><App /></Router>);
+    render(<App />);
     const signup = screen.getAllByText('Sign up');
     expect(signup).toHaveLength(2);
 })

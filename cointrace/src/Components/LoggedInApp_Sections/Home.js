@@ -41,8 +41,6 @@ function Home(props){
         coinsNames.forEach((coin)=>{
             axios.get(`https://api.coingecko.com/api/v3/coins/${coin}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`)
             .then((response)=>{
-                console.log('a')
-                console.log(response.data);
                 setCoins(currentArr => [response.data, ...currentArr]);
             })
             .catch((error)=>{
@@ -80,7 +78,7 @@ function Home(props){
                     </div>
                     <div className="middle-coins-bottom">
                         <TableContainer  style={{overflow:'auto', height:'100%'}}>
-                            <Table height='100%'>
+                            <Table height='100%' data-testid='home-table'>
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell>Name</StyledTableCell>
@@ -131,7 +129,6 @@ function Home(props){
                 <div className="footer">
                 <span>@2022 <a href="https://github.com/Justasrimavicius/" style={{textDecoration:'none'}}>https://github.com/Justasrimavicius/</a></span>
                 <Button variant="text" color="secondary" onClick={()=>{window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ')}}>Click me for a surprise</Button>
-                {/* Do something with the upper button. maybe api for animal gifs? */}
                 </div>
             </div>
         </React.Fragment>
