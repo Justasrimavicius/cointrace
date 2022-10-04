@@ -185,7 +185,7 @@ function Portfolio(props){
             {balanceTopup ? 
                 <Dialog open={true}>
                     <DialogTitle align="center">Type in an amount</DialogTitle>
-                        <DialogTitle align="center">You can only topup your balance once - we recommend you insert a high amount(maximum 100 millions)</DialogTitle>
+                        <DialogTitle align="center">You can only topup your balance once - we recommend you insert a high amount(maximum 100 million)</DialogTitle>
                     <TextField type='number' variant="filled" className="fiat-amount" placeholder="100000.00" onChange={(e)=>{setMockFiatAmount(e.target.value)}}></TextField>
                     <div style={{display:'flex',flexDirection:'row', justifyContent:'space-around'}}>
                         <Button variant="outlined" fullWidth onClick={()=>{HandleTopup()}}>Continue</Button>
